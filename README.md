@@ -27,26 +27,27 @@ echo <app-server_ip_adresi> app-server >> C:\Windows\System32\drivers\etc\hosts
 
 ## Jenkins kurulumu
 
-Paket depolarına erişim için gerekli key dosyası sisteme eklenir:
+- Paket depolarına erişim için gerekli key dosyası sisteme eklenir:
 ~~~
 curl -fsSL https://pkg.jenkins.io/debian-stable/jenkins.io.key | sudo tee \
     /usr/share/keyrings/jenkins-keyring.asc > /dev/null
 ~~~
 
-Repository listesi sisteme eklenir:
+- Repository listesi sisteme eklenir:
 ~~~
 echo deb [signed-by=/usr/share/keyrings/jenkins-keyring.asc] \
     https://pkg.jenkins.io/debian-stable binary/ | sudo tee \
     /etc/apt/sources.list.d/jenkins.list > /dev/null
 ~~~
 
-Paket indexi güncellenir ve kurulum gerçekleştirilir:
+- Paket indexi güncellenir ve kurulum gerçekleştirilir:
 ~~~
 sudo apt-get update
 sudo apt-get install fontconfig openjdk-11-jre git
 sudo apt-get install jenkins
 ~~~
 
+- Web tarayıcıda http://jenkins:8080 açılarak Jenkins kurulum adımları tamamlanır.
 
 https://github.com/spring-projects/spring-petclinic
 
