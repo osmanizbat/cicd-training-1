@@ -11,7 +11,7 @@ pipeline {
         stage('git clone') {
             steps {
                 sh 'rm -rf $PROJECT_NAME'
-                sh 'git clone $REPO_URL'
+                sh 'git clone --depth 1 --branch main $REPO_URL'
             }
         }
 
