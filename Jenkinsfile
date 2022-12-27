@@ -10,6 +10,7 @@ pipeline {
 
         stage('git clone') {
             steps {
+                sh 'rm -rf $PROJECT_NAME'
                 sh 'git clone $REPO_URL'
             }
         }
@@ -18,7 +19,6 @@ pipeline {
             steps {
                 echo 'Building..'
                 sh 'cd $PROJECT_NAME'
-                sh 'ls -al'
                 sh 'mvn clean package'
             }
         }
