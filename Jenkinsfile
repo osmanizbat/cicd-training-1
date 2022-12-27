@@ -12,16 +12,17 @@ pipeline {
             steps {
                 sh 'rm -rf $PROJECT_NAME'
                 sh 'git clone $REPO_URL'
-                sh 'pwd && ls -al'
             }
         }
 
         stage('Build') {
             steps {
                 echo 'Building..'
-                sh 'pwd && ls -al'
-                sh 'cd $PROJECT_NAME && pwd && ls -al'
-                sh 'mvn clean package'
+                sh '
+                    pwd && ls -al
+                    cd $PROJECT_NAME && pwd && ls -al
+                    mvn clean package
+                '
             }
         }
 
