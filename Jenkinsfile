@@ -41,6 +41,12 @@ pipeline {
         stage('Deploy') {
             steps {
                 echo 'Deploying....'
+
+                sh '''
+                    cd $PROJECT_NAME
+                    scp target/*.jar spring-petclinic@app-server:/opt/spring-petclinic/spring-petclinic.jar
+                '''
+
             }
         }
     }
