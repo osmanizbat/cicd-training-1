@@ -44,7 +44,7 @@ pipeline {
 
                 sh '''
                     cd $PROJECT_NAME
-                    scp target/*.jar spring-petclinic@app-server:/opt/spring-petclinic/spring-petclinic.jar
+                    scp target/*.jar spring-petclinic@192.168.1.28:/opt/spring-petclinic/spring-petclinic.jar
                 '''
 
             }
