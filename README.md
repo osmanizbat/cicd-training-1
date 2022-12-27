@@ -45,9 +45,36 @@ echo deb [signed-by=/usr/share/keyrings/jenkins-keyring.asc] \
 sudo apt-get update
 sudo apt-get install fontconfig openjdk-17-jdk git maven vim
 sudo apt-get install jenkins
+echo <app-server_ip_adresi> app-server >> /etc/hosts
+sudo -u jenkins ssh-keygen -t rsa -b 4096
 ~~~
 
 - Web tarayıcıda http://jenkins:8080 açılarak Jenkins kurulum adımları tamamlanır.
+
+
+## Uygulama sunucusunun hazırlanması
+
+
+- Uygulama dizinlerini ve çalıştıracak kullanıcıyı oluşturuyoruz.
+~~~
+sudo useradd -d /opt/spring-petclinic spring-petclinic
+~~~
+
+- Jenkins sunucusundan /var/lib/jenkins/.ssh/id_rsa.pub dosyasının içeriği app-server sunucusuna kopyalanır. 
+~~~
+sudo -u spring-petclinic vim /opt/spring-petclinic/.ssh/authorized_keys
+sudo chmod 600 /opt/spring-petclinic/.ssh/authorized_keys
+~~~
+
+- Systemd servisini oluşturuyoruz.
+~~~
+sudo vim /lib/systemd/system/spring-petclinic.service
+cd /etc/systemd/system/multi-user.target.wants
+sudo ln -s /lib/systemd/system/spring-petclinic.service spring-petclinic.service
+sudo systemctl enable spring-petclinic.service
+
+~~~
+
 
 https://github.com/spring-projects/spring-petclinic
 
