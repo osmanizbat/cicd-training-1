@@ -18,11 +18,11 @@ pipeline {
         stage('Build') {
             steps {
                 echo 'Building..'
-                sh '
+                sh '''
                     pwd && ls -al
                     cd $PROJECT_NAME && pwd && ls -al
                     mvn clean package
-                '
+                '''
             }
         }
 
