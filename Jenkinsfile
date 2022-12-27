@@ -19,7 +19,6 @@ pipeline {
             steps {
                 echo 'Building..'
                 sh '''
-                    pwd && ls -al
                     cd $PROJECT_NAME && pwd && ls -al
                     mvn clean package
                 '''

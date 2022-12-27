@@ -43,7 +43,7 @@ echo deb [signed-by=/usr/share/keyrings/jenkins-keyring.asc] \
 - Paket indexi güncellenir ve kurulum gerçekleştirilir:
 ~~~
 sudo apt-get update
-sudo apt-get install fontconfig openjdk-11-jre git maven
+sudo apt-get install fontconfig openjdk-17-jdk git maven
 sudo apt-get install jenkins
 ~~~
 
