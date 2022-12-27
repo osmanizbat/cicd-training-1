@@ -20,7 +20,7 @@ pipeline {
                 echo 'Building..'
                 sh '''
                     cd $PROJECT_NAME && pwd && ls -al
-                    mvn clean package
+                    mvn clean package -DskipTests
                 '''
             }
         }
@@ -28,6 +28,11 @@ pipeline {
         stage('Test') {
             steps {
                 echo 'Testing..'
+                sh '''
+                    cd $PROJECT_NAME
+                    mvn test
+                '''
+
             }
         }
 
