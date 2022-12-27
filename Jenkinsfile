@@ -31,6 +31,7 @@ pipeline {
                 sh '''
                     cd $PROJECT_NAME
                     mvn test
+                    ls -al target/surefire-reports
                 '''
                 junit skipMarkingBuildUnstable: true, testResults: 'target/surefire-reports/*.xml'                
 
