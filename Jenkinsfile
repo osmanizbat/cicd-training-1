@@ -19,6 +19,7 @@ pipeline {
             steps {
                 echo 'Building..'
                 sh 'cd $PROJECT_NAME'
+                sh 'pwd && ls -al'
                 sh 'mvn clean package'
             }
         }
