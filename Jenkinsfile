@@ -33,7 +33,7 @@ pipeline {
                     mvn test
                     ls -al target/surefire-reports
                 '''
-                junit skipMarkingBuildUnstable: true, testResults: 'target/surefire-reports/*.xml'                
+                junit skipMarkingBuildUnstable: true, testResults: '$PROJECT_NAMEtarget/surefire-reports/*.xml'                
 
             }
         }
