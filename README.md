@@ -65,10 +65,15 @@ sudo passwd spring-petclinic
 ~~~
 sudo useradd jenkins
 sudo passwd jenkins
+~~~
+
+- jenkins user için uygulama dizinine yazma yetkisi veriyoruz. 
+~~~
 sudo setfacl -m u:jenkins:wx /opt/spring-petclinic
 ~~~
 
-- Jenkins sunucusundan jenkins kullanıcısının ssh key'ini app-server sunucusuna kopyalıyoruz. 
+
+- Jenkins sunucusundan jenkins user ssh key'ini app-server sunucusuna kopyalıyoruz. 
 ~~~
 sudo su - jenkins
 ssh-copy-id jenkins@app-server
