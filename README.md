@@ -44,7 +44,7 @@ echo deb [signed-by=/usr/share/keyrings/jenkins-keyring.asc] \
 - Paket indexi güncellenir ve kurulum gerçekleştirilir:
 ~~~
 sudo apt-get update
-sudo apt-get install fontconfig openjdk-17-jdk git maven vim rsync
+sudo apt-get install fontconfig openjdk-17-jdk git maven vim
 sudo apt-get install jenkins
 sudo echo <app-server_ip_adresi> app-server >> /etc/hosts
 sudo -u jenkins ssh-keygen -t rsa -b 4096

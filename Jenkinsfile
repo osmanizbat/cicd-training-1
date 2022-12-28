@@ -25,6 +25,7 @@ pipeline {
             }
         }
 
+/*
         stage('Test') {
             steps {
                 echo 'Testing..'
@@ -37,15 +38,15 @@ pipeline {
 
             }
         }
+*/
 
         stage('Deploy') {
             steps {
                 echo 'Deploying....'
 
                 sh '''
-                    cd $PROJECT_NAME
-                    nslookup app-server
-                    scp -o StrictHostKeyChecking=no target/*.jar spring-petclinic@192.168.1.28:/opt/spring-petclinic/spring-petclinic.jar
+                    cd $PROJECT_NAME     
+                    scp -o StrictHostKeyChecking=no target/*.jar spring-petclinic@app-server:/opt/spring-petclinic/spring-petclinic.jar
                     sudo systemctl restart spring-petclinic.service 
                 '''
 
