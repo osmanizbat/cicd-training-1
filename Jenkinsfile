@@ -4,6 +4,7 @@ pipeline {
     environment {
         PROJECT_NAME = 'spring-petclinic'
         REPO_URL = 'https://github.com/spring-projects/spring-petclinic'
+        APP_SERVER = 192.168.1.28
     }    
 
     stages {
@@ -46,8 +47,8 @@ pipeline {
 
                 sh '''
                     cd $PROJECT_NAME     
-                    scp -o StrictHostKeyChecking=no target/*.jar spring-petclinic@app-server:/opt/spring-petclinic/spring-petclinic.jar | exit 0
-                    ssh spring-petclinic@app-server "sudo systemctl restart spring-petclinic.service" 
+                    scp -o StrictHostKeyChecking=no target/*.jar jenkins@$APP_SERVER:/opt/$PROJECT_NAME/$PROJECT_NAME.jar | exit 0
+                    ssh jenkins@$APP_SERVER "sudo systemctl restart $PROJECT_NAME.service" 
                 '''
             }
         }

@@ -44,7 +44,7 @@ echo deb [signed-by=/usr/share/keyrings/jenkins-keyring.asc] \
 - Paket indexi güncellenir ve kurulum gerçekleştirilir:
 ~~~
 sudo apt-get update
-sudo apt-get install fontconfig openjdk-17-jdk git maven vim
+sudo apt-get install fontconfig openjdk-17-jdk git maven vim acl
 sudo apt-get install jenkins
 sudo echo <app-server_ip_adresi> app-server >> /etc/hosts
 sudo -u jenkins ssh-keygen -t rsa -b 4096
@@ -59,12 +59,20 @@ sudo -u jenkins ssh-keygen -t rsa -b 4096
 - Uygulama dizinlerini ve çalıştıracak kullanıcıyı oluşturuyoruz.
 ~~~
 sudo useradd -d /opt/spring-petclinic spring-petclinic
+sudo passwd spring-petclinic
 ~~~
 
-- Jenkins sunucusundan /var/lib/jenkins/.ssh/id_rsa.pub dosyasının içeriği app-server sunucusuna kopyalanır. 
+- Deployment kullanıcısını oluşturuyoruz. 
 ~~~
-sudo -u spring-petclinic vim /opt/spring-petclinic/.ssh/authorized_keys
-sudo chmod 600 /opt/spring-petclinic/.ssh/authorized_keys
+sudo useradd jenkins
+sudo passwd jenkins
+sudo setfacl -m u:jenkins:rw /opt/spring-petclinic
+~~~
+
+- Jenkins sunucusundan jenkins kullanıcısının ssh key'ini app-server sunucusuna kopyalıyoruz. 
+~~~
+sudo su - jenkins
+ssh-copy-id jenkins@app-server
 ~~~
 
 - Systemd servisini oluşturup uygulamayı başlatıyoruz.
