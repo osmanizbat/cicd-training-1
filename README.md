@@ -55,7 +55,6 @@ sudo -u jenkins ssh-keygen -t rsa -b 4096
 
 ## Uygulama sunucusunun hazırlanması
 
-
 - Uygulama dizinlerini ve çalıştıracak kullanıcıyı oluşturuyoruz.
 ~~~
 sudo useradd -d /opt/spring-petclinic spring-petclinic
@@ -83,6 +82,16 @@ sudo ln -s /lib/systemd/system/spring-petclinic.service spring-petclinic.service
 sudo systemctl enable spring-petclinic.service
 sudo systemctl start spring-petclinic.service
 sudo systemctl status spring-petclinic.service
+~~~
+
+- jenkins user ile servisi restart edebilmek için aşağıdaki 2 satırı içeren sudoer dosyası oluşturuyoruz    
+~~~
+sudo visudo -f /etc/sudoers.d/spring-petclinic 
+~~~
+
+~~~
+Cmnd_Alias COMMANDS = /usr/bin/systemctl restart spring-petclinic.service
+jenkins ALL = (root) NOPASSWD: COMMANDS
 ~~~
 
 

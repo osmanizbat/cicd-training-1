@@ -27,18 +27,18 @@ pipeline {
         }
 
 
-        // stage('Test') {
-        //     steps {
-        //         echo 'Testing..'
-        //         sh '''
-        //             cd $PROJECT_NAME
-        //             mvn test
-        //             ls -al target/surefire-reports
-        //         '''
-        //         junit skipMarkingBuildUnstable: true, testResults: '**/surefire-reports/*.xml'                
+        stage('Test') {
+            steps {
+                echo 'Testing..'
+                sh '''
+                    cd $PROJECT_NAME
+                    mvn test
+                    ls -al target/surefire-reports
+                '''
+                junit skipMarkingBuildUnstable: true, testResults: '**/surefire-reports/*.xml'                
 
-        //     }
-        // }
+            }
+        }
 
 
         stage('Deploy') {
