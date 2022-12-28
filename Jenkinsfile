@@ -49,7 +49,6 @@ pipeline {
                     scp -o StrictHostKeyChecking=no target/*.jar spring-petclinic@app-server:/opt/spring-petclinic/spring-petclinic.jar
                     sudo systemctl restart spring-petclinic.service 
                 '''
-
             }
         }
     }
