@@ -67,13 +67,14 @@ sudo -u spring-petclinic vim /opt/spring-petclinic/.ssh/authorized_keys
 sudo chmod 600 /opt/spring-petclinic/.ssh/authorized_keys
 ~~~
 
-- Systemd servisini oluşturuyoruz.
+- Systemd servisini oluşturup uygulamayı başlatıyoruz.
 ~~~
 sudo vim /lib/systemd/system/spring-petclinic.service
 cd /etc/systemd/system/multi-user.target.wants
 sudo ln -s /lib/systemd/system/spring-petclinic.service spring-petclinic.service
 sudo systemctl enable spring-petclinic.service
-
+sudo systemctl start spring-petclinic.service
+sudo systemctl status spring-petclinic.service
 ~~~
 
 

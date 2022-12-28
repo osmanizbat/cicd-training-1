@@ -4,7 +4,7 @@ After=syslog.target
 
 [Service]
 User=spring-petclinic
-ExecStart=java -jar /opt/spring-petclinic/spring-petclinic.jar --server.port=9090
+ExecStart=java -jar /opt/spring-petclinic/spring-petclinic.jar
 SuccessExitStatus=143
 
 [Install]

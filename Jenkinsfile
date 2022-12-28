@@ -44,7 +44,9 @@ pipeline {
 
                 sh '''
                     cd $PROJECT_NAME
+                    nslookup app-server
                     scp -o StrictHostKeyChecking=no target/*.jar spring-petclinic@192.168.1.28:/opt/spring-petclinic/spring-petclinic.jar
+                    sudo systemctl restart spring-petclinic.service 
                 '''
 
             }
