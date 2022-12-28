@@ -48,7 +48,7 @@ pipeline {
                 sh '''
                     cd $PROJECT_NAME     
                     scp -o StrictHostKeyChecking=no target/*.jar jenkins@$APP_SERVER:/opt/$PROJECT_NAME/$PROJECT_NAME.jar | exit 0
-                    ssh jenkins@$APP_SERVER "sudo systemctl restart $PROJECT_NAME.service" 
+                    ssh jenkins@$APP_SERVER "sudo /usr/bin/systemctl restart $PROJECT_NAME.service" 
                 '''
             }
         }
