@@ -19,10 +19,11 @@ ip a
 ~~~
 echo <jenkins_ip_adresi> jenkins >> C:\Windows\System32\drivers\etc\hosts
 echo <app-server_ip_adresi> app-server >> C:\Windows\System32\drivers\etc\hosts
-
 ~~~
+
 - Windows ayarlarında Apps & Features / Optional Fetures ekranında __OpenSSH Client__ uygulamasının kurulu olduğu teyit edilir.
 - Windows terminal ekranıonda ssh vboxuser@jenkins komutuyla VM'e bağlanılır.
+- Tercihen sunuculara public key authentication ile girebilmek için Windows terminalde "ssh-keygen -t rsa -b 4096" komutuyla key oluşturularak .ssh/id_rsa.pub dosyasının içeriği hedef sunucuda .ssh/authorized_keys dosyası içerisine eklenir. 
 
 
 ## Jenkins kurulumu
