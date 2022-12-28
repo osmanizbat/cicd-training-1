@@ -2,7 +2,7 @@
 https://www.virtualbox.org/wiki/Downloads adresinden uygun kurulum paketi indirilerek kurulum gerçekleştirilir.
 
 ## Sanal sunucu oluşturulması
-- [debian-live-11.6.0-amd64-standard.iso](https://cdimage.debian.org/debian-cd/current-live/amd64/iso-hybrid/debian-live-11.6.0-amd64-standard.iso) dosyası indirilerek Virtualbox üzerinde yeni bir sanal sunucuya oluşturulur (Name: Jenkins, Memory: 2048 MB, cpu: 1, Disk: 20GB).
+- [debian-live-11.6.0-amd64-standard.iso](https://cdimage.debian.org/debian-cd/current-live/amd64/iso-hybrid/debian-live-11.6.0-amd64-standard.iso) dosyası indirilerek Virtualbox üzerinde yeni bir sanal sunucu oluşturulur (Name: Jenkins, Memory: 2048 MB, cpu: 1, Disk: 20GB).
 - Açılış menüsünde VBoxUnatendedInstall seçilerek kurulum başlatılır.
 - Kurulum sonrası makine kapatılarak Machine -> Settings ekranında network ayarlarında "Bridged Adaptor" seçilerek makine start edilir.
 - VM'e ssh ile bağlanabilmek için aşağıdaki komutlar çalıştırılır:
@@ -99,11 +99,5 @@ Cmnd_Alias COMMANDS = /usr/bin/systemctl restart spring-petclinic.service
 jenkins ALL = (root) NOPASSWD: COMMANDS
 ~~~
 
-
-https://github.com/spring-projects/spring-petclinic
-
-https://github.com/cihanca/devopz
-
-https://github.com/dotnet-architecture/eShopOnContainers
 
 
