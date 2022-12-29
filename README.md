@@ -14,6 +14,22 @@ usermod -aG sudo vboxuser
 ip a
 ~~~
 
+- IP adresinin sabit kalması için /etc/network/interfaces dosyası içinde ilgili network interface ayarları aşağıdaki şekilde düzenlenerek sunucu reboot edilir. Not: Parametreler bulunduğunuz networkün ayarlarına uygun olmalı.   
+~~~
+...
+# The primary network interface
+#allow-hotplug enp0s3
+#iface enp0s3 inet dhcp
+
+auto enp0s3
+iface enp0s3 inet static
+ address 192.168.1.28
+ netmask 255.255.255.0
+ gateway 192.168.1.1
+ dns-domain home
+ dns-nameservers 192.168.1.1
+~~~
+
 - Yukarıdaki adımlar tekrar uygulanarak aynı ayarlarla app-server adıyla bir sanal sunucu daha oluşturulur.
 
 ~~~
