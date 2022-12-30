@@ -73,7 +73,7 @@ sudo -u jenkins ssh-keygen -t rsa -b 4096
 
 - Uygulama dizinlerini ve çalıştıracak kullanıcıyı oluşturuyoruz.
 ~~~
-sudo useradd -d /opt/spring-petclinic spring-petclinic
+ sudo useradd -m -d /opt/spring-petclinic spring-petclinic
 sudo passwd spring-petclinic
 ~~~
 
