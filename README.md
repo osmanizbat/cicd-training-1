@@ -2,74 +2,76 @@
 https://www.virtualbox.org/wiki/Downloads adresinden uygun kurulum paketi indirilerek kurulum gerçekleştirilir.
 
 ## Sanal sunucu oluşturulması
-- [debian-live-11.6.0-amd64-standard.iso](https://cdimage.debian.org/debian-cd/current-live/amd64/iso-hybrid/debian-live-11.6.0-amd64-standard.iso) dosyası indirilerek Virtualbox üzerinde yeni bir sanal sunucu oluşturulur (Name: Jenkins, Memory: 2048 MB, cpu: 1, Disk: 20GB).
-- Açılış menüsünde VBoxUnatendedInstall seçilerek kurulum başlatılır.
-- Kurulum sonrası makine kapatılarak Machine -> Settings ekranında network ayarlarında "Bridged Adaptor" seçilerek makine start edilir.
-- VM'e ssh ile bağlanabilmek için aşağıdaki komutlar çalıştırılır:
+1. [debian-live-11.6.0-amd64-standard.iso](https://cdimage.debian.org/debian-cd/current-live/amd64/iso-hybrid/debian-live-11.6.0-amd64-standard.iso) dosyası indirilerek Virtualbox üzerinde yeni bir sanal sunucu oluşturulur (Name: Jenkins, Memory: 2048 MB, cpu: 1, Disk: 20GB).
+2. Açılış menüsünde __VBoxUnatendedInstall__ seçilerek kurulum başlatılır (Açılış menüsü hızlı geçtiğinden açılış esnasında klavye ok tuşlarıyla menüyü yakalayabilirsiniz).
+3. Kurulum sonrası makine kapatılarak Machine -> Settings ekranında network ayarlarında __"Bridged Adaptor"__ seçilerek makine start edilir.
+4. VM'e ssh ile bağlanabilmek için aşağıdaki komutlar çalıştırılır:
 
 ~~~
 su - root
-apt update && apt install openssh-server -y
+apt update
+apt install openssh-server -y
 usermod -aG sudo vboxuser
+reboot
+~~~
+
+5. Yukarıdaki adımlar tekrar uygulanarak aynı ayarlarla __app-server__ adıyla bir sanal sunucu daha oluşturulur.
+
+Yukarıda __vboxuser__ kullanıcısını __sudo__ grubuna eklediğimiz için bundan sonra root yetkisi gerektiren komutları önüne sudo ekleyerek çalıştırabiliriz.
+
+6. Her iki sunucuda da aşağıdaki komut çalıştırılarak makine IP adresleri not edilir:
+~~~
 ip a
 ~~~
 
-- IP adresinin sabit kalması için /etc/network/interfaces dosyası içinde ilgili network interface ayarları aşağıdaki şekilde düzenlenerek sunucu reboot edilir. Not: Parametreler bulunduğunuz networkün ayarlarına uygun olmalı.   
-~~~
-...
-# The primary network interface
-#allow-hotplug enp0s3
-#iface enp0s3 inet dhcp
-
-auto enp0s3
-iface enp0s3 inet static
- address 192.168.1.28
- netmask 255.255.255.0
- gateway 192.168.1.1
- dns-domain home
- dns-nameservers 192.168.1.1
-~~~
-
-- Yukarıdaki adımlar tekrar uygulanarak aynı ayarlarla app-server adıyla bir sanal sunucu daha oluşturulur.
-
+7. Makinelere hostname ile erişim sağlayabilmek için Windows mekinenizde __Command Prompt__ uygulamasını administrator olarak açtıktan sonra aşağıdaki komutlarla Windows hosts dosyanıza IP adresleri eklenir.
 ~~~
 echo <jenkins_ip_adresi> jenkins >> C:\Windows\System32\drivers\etc\hosts
 echo <app-server_ip_adresi> app-server >> C:\Windows\System32\drivers\etc\hosts
 ~~~
 
-- Windows ayarlarında Apps & Features / Optional Fetures ekranında __OpenSSH Client__ uygulamasının kurulu olduğu teyit edilir.
-- Windows terminal ekranıonda ssh vboxuser@jenkins komutuyla VM'e bağlanılır.
-- Tercihen sunuculara public key authentication ile girebilmek için Windows terminalde "ssh-keygen -t rsa -b 4096" komutuyla key oluşturularak .ssh/id_rsa.pub dosyasının içeriği hedef sunucuda .ssh/authorized_keys dosyası içerisine eklenir. 
+8. Windows ayarlarında Apps & Features / Optional Fetures ekranında __OpenSSH Client__ uygulamasının kurulu olduğu teyit edilir.
+9. Windows terminal ekranıonda `ssh vboxuser@jenkins` komutuyla VM'e bağlanılır.
+10. Tercihen sunuculara public key authentication ile girebilmek için Windows terminalde `ssh-keygen -t rsa -b 4096` komutuyla key oluşturularak .ssh/id_rsa.pub dosyasının içeriği hedef sunucuda .ssh/authorized_keys dosyası içerisine eklenir. 
 
 
 ## Jenkins kurulumu
 
-- Paket depolarına erişim için gerekli key dosyası sisteme eklenir:
+1. Jenkins paket depolarına erişim için gerekli key dosyası sisteme eklenir:
 ~~~
 curl -fsSL https://pkg.jenkins.io/debian-stable/jenkins.io.key | sudo tee \
     /usr/share/keyrings/jenkins-keyring.asc > /dev/null
 ~~~
 
-- Repository listesi sisteme eklenir:
+2. Repository listesi sisteme eklenir:
 ~~~
 echo deb [signed-by=/usr/share/keyrings/jenkins-keyring.asc] \
     https://pkg.jenkins.io/debian-stable binary/ | sudo tee \
     /etc/apt/sources.list.d/jenkins.list > /dev/null
 ~~~
 
-- Paket indexi güncellenir ve kurulum gerçekleştirilir:
+3. Paket indexi güncellenir ve kurulum gerçekleştirilir:
 ~~~
 sudo apt-get update
-sudo apt-get install fontconfig openjdk-17-jdk git maven vim acl
+sudo apt-get install fontconfig openjdk-17-jdk git maven
 sudo apt-get install jenkins
-sudo echo <app-server_ip_adresi> app-server >> /etc/hosts
+sudo echo "<app-server_ip_adresi> app-server" >> /etc/hosts
 sudo -u jenkins ssh-keygen -t rsa -b 4096
 ~~~
 
-- Web tarayıcıda http://jenkins:8080 açılarak Jenkins kurulum adımları tamamlanır.
+4. Web tarayıcıda http://jenkins:8080 açılarak Jenkins kurulum adımları tamamlanır.
 
 
 ## Uygulama sunucusunun hazırlanması
+
+1. Paket indexi güncellenir ve gerekli bazı paketler kurulur
+~~~
+sudo apt-get update
+sudo apt-get install openjdk-17-jdk acl
+sudo echo "<app-server_ip_adresi> app-server" >> /etc/hosts
+sudo -u jenkins ssh-keygen -t rsa -b 4096
+~~~
+
 
 - Uygulama dizinlerini ve çalıştıracak kullanıcıyı oluşturuyoruz.
 ~~~
@@ -114,6 +116,8 @@ sudo visudo -f /etc/sudoers.d/spring-petclinic
 Cmnd_Alias COMMANDS = /usr/bin/systemctl restart spring-petclinic.service
 jenkins ALL = (root) NOPASSWD: COMMANDS
 ~~~
+
+- http://jenkins:8080 adresinden Jenkins'in web arayüzüne girerek 
 
 
 
