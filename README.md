@@ -113,7 +113,7 @@ Yukarıda __vboxuser__ kullanıcısını __sudo__ grubuna eklediğimiz için bun
     jenkins ALL = (root) NOPASSWD: COMMANDS
     ~~~
 
-8. http://jenkins:8080 adresinden Jenkins'in web arayüzüne girerek pipeline oluşturarak "Pipeline script from SCM / Repository URL" kısmına bu git repository'nin adresi yazılır (https://github.dev/osmanizbat/cicd-training-1)
+8. http://jenkins:8080 adresinden Jenkins'in web arayüzüne girerek pipeline oluşturarak "Pipeline script from SCM / Repository URL" kısmına bu git repository'nin adresi yazılır (https://github.com/osmanizbat/cicd-training-1)
 
 9. Pipeline çalıştırıldıktan sonra app-server'da aşağıdaki komutla servisin çalışıp çalışmadığı kontrol edilir.  
     ~~~
