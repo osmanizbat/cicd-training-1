@@ -38,10 +38,10 @@ echo <app-server_ip_adresi> app-server >> C:\Windows\System32\drivers\etc\hosts
 ## Jenkins kurulumu
 
 1. Jenkins paket depolarına erişim için gerekli key dosyası sisteme eklenir:
-~~~
-curl -fsSL https://pkg.jenkins.io/debian-stable/jenkins.io.key | sudo tee \
-    /usr/share/keyrings/jenkins-keyring.asc > /dev/null
-~~~
+    ~~~
+    curl -fsSL https://pkg.jenkins.io/debian-stable/jenkins.io.key | sudo tee \
+        /usr/share/keyrings/jenkins-keyring.asc > /dev/null
+    ~~~
 
 2. Repository listesi sisteme eklenir:
 ~~~
@@ -73,41 +73,38 @@ sudo -u jenkins ssh-keygen -t rsa -b 4096
 ~~~
 
 
-- Uygulama dizinlerini ve çalıştıracak kullanıcıyı oluşturuyoruz.
+2. Uygulama dizinini ve çalıştıracak kullanıcıyı oluşturuyoruz.
 ~~~
 sudo useradd -m -d /opt/spring-petclinic spring-petclinic
 sudo passwd spring-petclinic
 ~~~
 
-- Deployment kullanıcısını oluşturuyoruz. 
+3. Deployment kullanıcısını oluşturuyoruz. 
 ~~~
 sudo useradd -m jenkins
 sudo passwd jenkins
 ~~~
 
-- jenkins user için uygulama dizinine yazma yetkisi veriyoruz. 
+4. jenkins user için uygulama dizinine yazma yetkisi veriyoruz. 
 ~~~
 sudo setfacl -m u:jenkins:wx /opt/spring-petclinic
 ~~~
 
-
-- Jenkins sunucusundan jenkins user ssh key'ini app-server sunucusuna kopyalıyoruz. 
+5. Jenkins sunucusundan jenkins user ssh key'ini app-server sunucusuna kopyalıyoruz. 
 ~~~
 sudo su - jenkins
 ssh-copy-id jenkins@app-server
 ~~~
 
-- Systemd servisini oluşturup uygulamayı başlatıyoruz.
+6. Systemd servisini oluşturup uygulamayı başlatıyoruz.
 ~~~
 sudo vim /lib/systemd/system/spring-petclinic.service
 cd /etc/systemd/system/multi-user.target.wants
 sudo ln -s /lib/systemd/system/spring-petclinic.service spring-petclinic.service
 sudo systemctl enable spring-petclinic.service
-sudo systemctl start spring-petclinic.service
-sudo systemctl status spring-petclinic.service
 ~~~
 
-- jenkins user ile servisi restart edebilmek için aşağıdaki 2 satırı içeren sudoer dosyası oluşturuyoruz    
+7. jenkins user ile servisi restart edebilmek için aşağıdaki 2 satırı içeren sudoer dosyası oluşturuyoruz    
 ~~~
 sudo visudo -f /etc/sudoers.d/spring-petclinic 
 ~~~
@@ -117,7 +114,13 @@ Cmnd_Alias COMMANDS = /usr/bin/systemctl restart spring-petclinic.service
 jenkins ALL = (root) NOPASSWD: COMMANDS
 ~~~
 
-- http://jenkins:8080 adresinden Jenkins'in web arayüzüne girerek 
+8. http://jenkins:8080 adresinden Jenkins'in web arayüzüne girerek pipeline oluşturarak "Pipeline script from SCM / Repository URL" kısmına bu git repository'nin adresi yazılır (https://github.dev/osmanizbat/cicd-training-1)
 
+9. Pipeline çalıştırıldıktan sonra app-server'da aşağıdaki komutla servisin çalışıp çalışmadığı kontrol edilir.  
+~~~
+sudo systemctl status spring-petclinic.service
+~~~
+
+10. Web tarayıcıda http://app-server:8080 adresi açılarak uygulamaya erişilir.
 
 
